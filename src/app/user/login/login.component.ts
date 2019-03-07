@@ -20,9 +20,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitting = true;
-    this.authService.login(this.model.email, this.model.password).then(user => {
-      this.submitting = false;
-      console.log(user);
-    });
+    this.authService
+      .login(this.model.email, this.model.password)
+      .then(user => {
+        this.submitting = false;
+      })
+      .catch(error => {
+        this.submitting = false;
+      });
   }
 }

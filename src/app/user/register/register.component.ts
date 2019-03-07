@@ -24,7 +24,9 @@ export class RegisterComponent implements OnInit {
       .register(this.model.email, this.model.password)
       .then(user => {
         this.submitting = false;
-        console.log(user);
+      })
+      .catch(error => {
+        this.submitting = false;
       });
   }
 }
