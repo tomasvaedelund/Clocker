@@ -1,22 +1,18 @@
 <div class="container has-text-centered">
   <div class="">
     <h3 class="title">Login</h3>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
       <div class="field">
         <p class="control has-icons-left has-icons-right">
           <input
             class="input is-large"
             type="email"
             placeholder="Email"
-            [(ngModel)]="model.email"
-            name="email"
-            #email="ngModel"
+            formControlName="email"
+            [ngClass]="{ 'is-danger': !isEmailValid }"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
-          </span>
-          <span class="icon is-small is-right">
-            <i class="fas fa-check"></i>
           </span>
         </p>
       </div>
@@ -27,9 +23,8 @@
             class="input is-large"
             type="password"
             placeholder="Password"
-            [(ngModel)]="model.password"
-            name="password"
-            #password="ngModel"
+            formControlName="password"
+            [ngClass]="{ 'is-danger': !isPasswordValid }"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-lock"></i>
