@@ -17,6 +17,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'clocker',
+    loadChildren: './clocker/clocker.module#ClockerModule'
+  },
+
+  {
     path: '',
     component: HomeComponent,
     canActivate: [AuthGuard],
