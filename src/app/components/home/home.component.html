@@ -8,10 +8,6 @@
       [disabled]="loading"
     >
       Check OUT
-      <fa-icon
-        [icon]="['fas', 'sign-in-alt']"
-        [classes]="['icon', 'is-small']"
-      ></fa-icon>
     </button>
   </div>
   <div *ngIf="!currentClocker">
@@ -22,10 +18,9 @@
       [ngClass]="{ 'is-loading': loading }"
       [disabled]="loading"
     >
-      <fa-icon
-        [icon]="['fas', 'sign-out-alt']"
-        [classes]="['icon', 'is-small']"
-      ></fa-icon>
+      <span class="icon is-large">
+        <i-log-in></i-log-in>
+      </span>
       Check IN
     </button>
   </div>
