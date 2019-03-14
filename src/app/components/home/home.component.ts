@@ -10,12 +10,18 @@ import { Clocker } from 'src/app/_models';
 export class HomeComponent implements OnInit {
   currentClocker: Clocker;
   loading = false;
+  starting = true;
+  currentTime: number;
 
   constructor(private clockerService: ClockerService) {}
 
   ngOnInit() {
     this.clockerService.currentClocker$.subscribe((clocker: Clocker) => {
       this.currentClocker = clocker;
+      setInterval(() => {
+        this.currentTime = Date.now();
+      }, 1000);
+      this.starting = false;
     });
   }
 

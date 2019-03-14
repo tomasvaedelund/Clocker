@@ -1,27 +1,40 @@
-<div>
+<div *ngIf="starting">
+  <div class="pageloader"><span class="title">Pageloader</span></div>
+</div>
+
+<div *ngIf="!starting">
   <div *ngIf="currentClocker">
     <p>You are IN!</p>
+    <p>IN: {{ currentClocker.timeIn | date: 'HH:mm:ss' }}</p>
+    <p>CURRENT: {{ currentTime | date: 'HH:mm:ss' }}</p>
+    <p>
+      DIFF: {{ currentTime - currentClocker.timeIn | date: 'HH:mm:ss':'+0000' }}
+    </p>
     <button
       class="button is-primary is-large"
       (click)="onCheckOut()"
       [ngClass]="{ 'is-loading': loading }"
       [disabled]="loading"
     >
-      Check OUT
+      <span class="icon is-small">
+        <i class="fas fa-sign-in-alt"></i>
+      </span>
+      <span>Check OUT</span>
     </button>
   </div>
   <div *ngIf="!currentClocker">
     <p>You are OUT!</p>
+    <p>CURRENT: {{ currentTime | date: 'HH:mm:ss' }}</p>
     <button
       class="button is-primary is-large"
       (click)="onCheckIn()"
       [ngClass]="{ 'is-loading': loading }"
       [disabled]="loading"
     >
-      <span class="icon is-large">
-        <i-log-in></i-log-in>
+      <span class="icon is-small">
+        <i class="fas fa-sign-out-alt"></i>
       </span>
-      Check IN
+      <span>Check IN</span>
     </button>
   </div>
 </div>

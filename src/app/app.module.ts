@@ -10,7 +10,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment.prod';
 
 import { AppRoutingModule } from './app-routing.module';
-import { IconsModule } from './icons/icons.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -29,8 +28,7 @@ import { HeaderComponent } from './components/header/header.component';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule,
-    IconsModule
+    AngularFireAuthModule
   ],
   providers: [{ provide: FirestoreSettingsToken, useValue: {} }],
   bootstrap: [AppComponent]
