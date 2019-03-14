@@ -2,22 +2,30 @@
   <div *ngIf="currentClocker">
     <p>You are IN!</p>
     <button
-      class="button is-primary"
+      class="button is-primary is-large"
       (click)="onCheckOut()"
       [ngClass]="{ 'is-loading': loading }"
       [disabled]="loading"
     >
       Check OUT
+      <fa-icon
+        [icon]="['fas', 'sign-in-alt']"
+        [classes]="['icon', 'is-small']"
+      ></fa-icon>
     </button>
   </div>
   <div *ngIf="!currentClocker">
     <p>You are OUT!</p>
     <button
-      class="button is-primary"
+      class="button is-primary is-large"
       (click)="onCheckIn()"
       [ngClass]="{ 'is-loading': loading }"
       [disabled]="loading"
     >
+      <fa-icon
+        [icon]="['fas', 'sign-out-alt']"
+        [classes]="['icon', 'is-small']"
+      ></fa-icon>
       Check IN
     </button>
   </div>
