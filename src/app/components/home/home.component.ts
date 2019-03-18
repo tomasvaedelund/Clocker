@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { ClockerService } from 'src/app/clocker/clocker.service';
 import { Clocker } from 'src/app/_models';
 
@@ -8,42 +10,35 @@ import { Clocker } from 'src/app/_models';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  currentClocker: Clocker;
+  currentClocker$: Observable<Clocker>;
   loading = false;
-  starting = true;
   currentTime: number;
   diffTime: number;
 
   constructor(private clockerService: ClockerService) {}
 
   ngOnInit() {
-    this.clockerService.currentClocker$.subscribe((clocker: Clocker) => {
-      this.currentClocker = clocker;
+    this.currentClocker$ = this.clockerService.currentClocker$;
+    this.setCurrentTime();
+    setInterval(() => {
       this.setCurrentTime();
-      setInterval(() => {
-        this.setCurrentTime();
-      }, 1000);
-      this.starting = false;
-    });
+    }, 1000);
   }
 
   setCurrentTime(): void {
     this.currentTime = Date.now();
-    this.diffTime = this.currentTime - this.currentClocker.timeIn;
   }
 
-  onCheckIn(): void {
+  onCheckIn(timeIn: number | null): void {
     this.loading = true;
-    this.clockerService.checkIn().then(() => {
+    this.clockerService.checkIn(timeIn).then(() => {
       this.loading = false;
     });
   }
 
-  onCheckOut(): void {
+  onCheckOut(timeIn: number, timeOut: number | null): void {
     this.loading = true;
-    this.currentClocker.timeOut = Date.now();
-
-    this.clockerService.checkOut(this.currentClocker).then(() => {
+    this.clockerService.checkOut(timeIn, timeOut).then(() => {
       this.loading = false;
     });
   }

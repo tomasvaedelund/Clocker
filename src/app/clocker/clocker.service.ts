@@ -10,6 +10,7 @@ import {
 import { Clocker } from '../_models';
 import { AuthService } from '../_services';
 import { firestore } from 'firebase';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,15 @@ export class ClockerService {
         this.clockerCol = this.afs.collection<Clocker>(`clockers`, ref =>
           ref.where('userId', '==', user.uid).orderBy('timeIn', 'desc')
         );
-        this.clockers$ = this.clockerCol.valueChanges();
+        this.clockers$ = this.clockerCol.snapshotChanges().pipe(
+          map(actions =>
+            actions.map(a => {
+              const data = a.payload.doc.data() as Clocker;
+              const id = a.payload.doc.id;
+              return { id, ...data };
+            })
+          )
+        );
 
         // Clocker current
         this.currentClockerDoc = this.afs.doc<Clocker>(`current/${user.uid}`);
@@ -44,15 +53,25 @@ export class ClockerService {
     return this.afs.doc<Clocker>(`clockers/${id}`).valueChanges();
   }
 
-  checkIn(): Promise<void> {
+  checkIn(timeIn: number | null): Promise<void> {
     const clocker: Clocker = {
-      timeIn: Date.now()
+      timeIn: timeIn || Date.now(),
+      userId: this.userId
     };
 
     return this.currentClockerDoc.set(clocker);
   }
 
-  checkOut(clocker: Clocker): Promise<(void | firestore.DocumentReference)[]> {
+  checkOut(
+    timeIn: number,
+    timeOut: number | null
+  ): Promise<(void | firestore.DocumentReference)[]> {
+    const clocker: Clocker = {
+      timeIn,
+      timeOut: timeOut || Date.now(),
+      userId: this.userId
+    };
+
     const promises: Promise<void | firestore.DocumentReference>[] = [];
     promises.push(this.currentClockerDoc.delete());
     promises.push(this.clockerCol.add(clocker));
