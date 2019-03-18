@@ -1,0 +1,40 @@
+<p>
+  list works!
+</p>
+
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date in</th>
+        <th>Time in</th>
+        <th>Date out</th>
+        <th>Time out</th>
+        <th>Diff</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr *ngFor="let clocker of (clockers$ | async)">
+        <td>{{ clocker.timeIn | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ clocker.timeIn | date: 'HH:mm:ss' }}</td>
+        <td>{{ clocker.timeOut | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ clocker.timeOut | date: 'HH:mm:ss' }}</td>
+        <td>
+          {{ clocker.timeOut - clocker.timeIn | date: 'HH:mm:ss':'+0000' }}
+        </td>
+        <td><button>test</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

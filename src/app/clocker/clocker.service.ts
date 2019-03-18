@@ -9,8 +9,6 @@ import {
 
 import { Clocker } from '../_models';
 import { AuthService } from '../_services';
-import { first, defaultIfEmpty } from 'rxjs/operators';
-import { TouchSequence } from 'selenium-webdriver';
 import { firestore } from 'firebase';
 
 @Injectable({
@@ -40,6 +38,10 @@ export class ClockerService {
         this.currentClocker$ = this.currentClockerDoc.valueChanges();
       }
     });
+  }
+
+  getClocker(id: string): Observable<Clocker> {
+    return this.afs.doc<Clocker>(`clockers/${id}`).valueChanges();
   }
 
   checkIn(): Promise<void> {
