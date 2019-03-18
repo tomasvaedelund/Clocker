@@ -11,14 +11,15 @@ const routes: Routes = [
   },
 
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: 'clocker',
+    loadChildren: './clocker/clocker.module#ClockerModule',
     canActivate: [AuthGuard]
   },
 
   {
-    path: 'clocker',
-    loadChildren: './clocker/clocker.module#ClockerModule'
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
 
   {
