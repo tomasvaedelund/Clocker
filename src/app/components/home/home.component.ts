@@ -12,17 +12,24 @@ export class HomeComponent implements OnInit {
   loading = false;
   starting = true;
   currentTime: number;
+  diffTime: number;
 
   constructor(private clockerService: ClockerService) {}
 
   ngOnInit() {
     this.clockerService.currentClocker$.subscribe((clocker: Clocker) => {
       this.currentClocker = clocker;
+      this.setCurrentTime();
       setInterval(() => {
-        this.currentTime = Date.now();
+        this.setCurrentTime();
       }, 1000);
       this.starting = false;
     });
+  }
+
+  setCurrentTime(): void {
+    this.currentTime = Date.now();
+    this.diffTime = this.currentTime - this.currentClocker.timeIn;
   }
 
   onCheckIn(): void {

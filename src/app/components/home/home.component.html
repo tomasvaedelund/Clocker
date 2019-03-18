@@ -1,3 +1,7 @@
+<p>
+  Home works!
+</p>
+
 <div *ngIf="starting">
   <div class="pageloader"><span class="title">Pageloader</span></div>
 </div>
@@ -7,9 +11,7 @@
     <p>You are IN!</p>
     <p>IN: {{ currentClocker.timeIn | date: 'HH:mm:ss' }}</p>
     <p>CURRENT: {{ currentTime | date: 'HH:mm:ss' }}</p>
-    <p>
-      DIFF: {{ currentTime - currentClocker.timeIn | date: 'HH:mm:ss':'+0000' }}
-    </p>
+    <p>DIFF: {{ diffTime | date: 'HH:mm:ss':'+0000' }}</p>
     <button
       class="button is-primary is-large"
       (click)="onCheckOut()"
@@ -38,3 +40,5 @@
     </button>
   </div>
 </div>
+
+<a [routerLink]="['/clocker/list']" class="button">List</a>
