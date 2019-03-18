@@ -64,6 +64,14 @@
             >
               Log out
             </a>
+            <a
+              class="button is-danger"
+              *ngIf="isAuthenticated"
+              [routerLink]="['/user/edit']"
+              [ngClass]="{ 'is-loading': submitting }"
+            >
+              Edit
+            </a>
           </div>
         </div>
       </div>
