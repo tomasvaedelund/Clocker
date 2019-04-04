@@ -7,7 +7,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 
-import { Clocker } from '../_models';
+import { Clocker, Current } from '../_models';
 import { AuthService } from '../_services';
 import { firestore } from 'firebase';
 import { map } from 'rxjs/operators';
@@ -20,8 +20,8 @@ export class ClockerService {
   clockers$: Observable<Clocker[]>;
   userId: string;
 
-  private currentClockerDoc: AngularFirestoreDocument<Clocker>;
-  currentClocker$: Observable<Clocker>;
+  private currentDoc: AngularFirestoreDocument<Current>;
+  current$: Observable<Current>;
 
   constructor(private afs: AngularFirestore, private auth: AuthService) {
     this.auth.afAuth.authState.subscribe(user => {
@@ -43,8 +43,8 @@ export class ClockerService {
         );
 
         // Clocker current
-        this.currentClockerDoc = this.afs.doc<Clocker>(`current/${user.uid}`);
-        this.currentClocker$ = this.currentClockerDoc.valueChanges();
+        this.currentDoc = this.afs.doc<Current>(`current/${user.uid}`);
+        this.current$ = this.currentDoc.valueChanges();
       }
     });
   }
@@ -54,12 +54,12 @@ export class ClockerService {
   }
 
   checkIn(timeIn: number | null): Promise<void> {
-    const clocker: Clocker = {
-      timeIn: timeIn || Date.now(),
-      userId: this.userId
+    const clocker: Current = {
+      checkedIn: true,
+      timeIn: timeIn || Date.now()
     };
 
-    return this.currentClockerDoc.set(clocker);
+    return this.currentDoc.set(clocker);
   }
 
   checkOut(
@@ -72,8 +72,12 @@ export class ClockerService {
       userId: this.userId
     };
 
+    const current: Current = {
+      checkedIn: false
+    };
+
     const promises: Promise<void | firestore.DocumentReference>[] = [];
-    promises.push(this.currentClockerDoc.delete());
+    promises.push(this.currentDoc.set(current));
     promises.push(this.clockerCol.add(clocker));
 
     return Promise.all(promises);

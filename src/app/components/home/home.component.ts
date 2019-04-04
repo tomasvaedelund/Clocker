@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ClockerService } from 'src/app/clocker/clocker.service';
-import { Clocker } from 'src/app/_models';
+import { Clocker, Current } from 'src/app/_models';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import { Clocker } from 'src/app/_models';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  currentClocker$: Observable<Clocker>;
+  current$: Observable<Current>;
   loading = false;
   currentTime: number;
   diffTime: number;
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   constructor(private clockerService: ClockerService) {}
 
   ngOnInit() {
-    this.currentClocker$ = this.clockerService.currentClocker$;
+    this.current$ = this.clockerService.current$;
     this.setCurrentTime();
     setInterval(() => {
       this.setCurrentTime();
