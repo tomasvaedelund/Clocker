@@ -1,14 +1,10 @@
-<p>
-  list works!
-</p>
-
-<div>
-  <table class="table">
+<div class="container has-text-centered">
+  <table class="table is-narrow is-fullwidth">
     <thead>
       <tr>
-        <th>Date in</th>
-        <th>Time in</th>
-        <th>Time out</th>
+        <th>Date</th>
+        <th>In</th>
+        <th>Out</th>
         <th>Diff</th>
         <th>Actions</th>
       </tr>
@@ -30,7 +26,26 @@
         <td>
           {{ clocker.timeOut - clocker.timeIn | date: 'HH:mm':'+0000' }}
         </td>
-        <td><a [routerLink]="['/clocker/edit', clocker.id]">Edit</a></td>
+        <td>
+          <div class="buttons">
+            <a
+              [routerLink]="['/clocker/edit', clocker.id]"
+              class="button is-small is-primary"
+            >
+              <span class="icon">
+                <i class="fas fa-edit"></i>
+              </span>
+            </a>
+            <a
+              [routerLink]="['/clocker/delete', clocker.id]"
+              class="button is-small is-danger"
+            >
+              <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+              </span>
+            </a>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
